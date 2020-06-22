@@ -1,0 +1,56 @@
+.q-apo-grid * {
+    box-sizing: border-box;
+}
+.q-apo-grid {
+    display: grid;
+    grid-template-rows: 1fr;
+    /* padding: 0 10px;
+    padding-top: 10px; */
+}
+.q-apo-grid .q-apo-cell {
+    display: grid;
+    height: 24px;
+    line-height: 24px;
+    grid-template-columns: 1fr;
+}
+.q-apo-grid.q-apo-grid-back .q-apo-col {
+    border-right: 1px dotted #CCC;
+}
+.q-apo-grid.q-apo-grid-back .q-apo-col .q-apo-cell{
+    border-top: 1px dotted #CCC;
+}
+.q-apo-grid.q-apo-grid-back .q-apo-col.q-apo-header .q-apo-cell {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 32px;
+    line-height: 32px;
+    border-top: 0px;
+}
+.q-apo-cell.q-apo-cel-main:hover {
+    background-color: rgb(205, 214, 255);
+}
+.q-apo-grid-back {
+    position: absolute;
+    top:0;
+    right:0;
+    left:0;
+    z-index: 0;
+}
+.q-apo-header {
+    position: fixed;
+    top:0;
+    right:0;
+    left:0;
+    z-index: 1000;
+}
+.q-apo-grid-front {
+    position: absolute;
+    top:0;
+    right:0;
+    left:0;
+    z-index: 100;
+}
+
+.q-apo-cell-time-border {
+
+}

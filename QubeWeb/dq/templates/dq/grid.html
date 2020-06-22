@@ -1,0 +1,80 @@
+{% extends "dq/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="q-apo-grid q-apo-grid-back h-100" data-columns="{{ dates|length }}" data-rows="{{ times|length }}">
+    <div class="q-apo-col q-apo-header bg-dark">
+        <div class="q-apo-cell"></div>
+    </div>
+    {% for d in dates %}
+    <div class="q-apo-col q-apo-header bg-dark">
+        <div class="q-apo-cell">
+            <div class="text-center text-light">
+                <span style="font-size: 0.8em">{{ d.month }}</span>
+                <span style="font-size: 0.8em">/</span>
+                <span class="font-weight-bold">{{ d.day }}</span>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="q-apo-col">
+        {% for t in times %}
+            {% if forloop.counter0|divisibleby:12 or forloop.frist %}
+                <div class="q-apo-cell q-apo-cell-time-border bg-dark text-center text-light font-weight-bold" data-row="{{ forloop.counter }}">{{ t }}</div>
+            {% else %}
+                <div class="q-apo-cell bg-dark" data-row="{{ forloop.counter }}"></div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% for d in dates %}
+    <div class="q-apo-col">
+        {% for t in times %}
+        <div class="q-apo-cell q-apo-cel-main" data-row="{{ forloop.counter }}"></div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+
+<div class="q-apo-grid q-apo-grid-front" data-columns="{{ dates|length }}" data-rows="{{ times|length }}">
+    <div class="q-apo-col"></div>
+    {% for d in dates %}
+    <div class="q-apo-col">
+        <div class="appointment"></div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
+{% block extra_js %}
+<script>
+    const apoGrid = document.querySelector(".q-apo-grid.q-apo-grid-back");
+    const apoGridColumns = apoGrid.dataset.columns;
+    const apoGridRows = apoGrid.dataset.rows;
+    const columns = [];
+    columns.push('50px');
+    for(let i = 0;i < apoGridColumns;i++){
+        columns.push('minmax(100px,1fr)');
+    }
+    apoGrid.style.gridTemplateColumns = columns.join(' ');
+    const apoGridFront = document.querySelector(".q-apo-grid.q-apo-grid-front");
+    apoGridFront.style.gridTemplateColumns = columns.join(' ');
+    apoGridFront.querySelector(".q-apo-col")
+
+
+    const grids = Array.from(document.querySelectorAll(".q-apo-grid.q-apo-grid-back .q-apo-cell"));
+    grids.forEach(grid => {
+        grid.addEventListener('mouseover',e => {
+            const index = grids.findIndex(grid => grid === e.target);
+            console.log(index);
+        });
+    });
+    // grid.style = {
+    //     'gridTemplateColumns': '1fr 1fr'
+    // }
+    // console.log(grid.style)
+</script>
+{% endblock extra_js %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'dq/css/grid.css' %}">
+{% endblock extra_css %}
