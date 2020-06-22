@@ -1,0 +1,45 @@
+#Error
+    Class ' has no objects member`
+        linterの設定で解消。
+        https://torive-engineerlife.blogspot.com/2018/05/visual-studio-codedjangopylint.html
+
+
+    context must be a dict rather than set.
+        return render(request,
+        'dq/appointment_list.html',
+        {'appointments',appointments})
+
+        jsonの形式が違う。
+        - {'appointments',appointments})
+        + {'appointments':appointments})
+
+
+        https://teratail.com/questions/101325
+
+#model #migrate
+    models.py を直す
+    $ python manage.py makemigrations app名 … models.pyの変更を拾ってマイグレートファイルを作る
+    $ python manage.py migrate … マイグレートファイルをデータベースに反映する
+
+#Error
+    Object of type datetime is not JSON serializable
+        JSONにはdate,datetimeがないので使用できない。
+
+#方針
+    バックエンド
+        python (django)
+        テンプレート構文は最低限にして、viewの生成はvue.jsで行う。
+
+    フロントエンド
+        html
+        css
+        javascript (vue.js)
+
+#CSS
+    グリッド形式のものを作ろうとしたときに、CSSに任せた自動折り返しが発生した場合に
+    謎の余白が発生してしまう。
+        自動折り返しの際の必然なので仕方がない。
+
+        gridのcolumnの中にdivでrowを作ろうとしたが、発生。
+
+        rowをdisplay:gridにして1列のみ構成にすることで解消。
