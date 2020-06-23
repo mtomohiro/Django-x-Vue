@@ -105,19 +105,18 @@ def grid(request):
         times.append(time_current.strftime('%H:%M'))
         time_current += time_unit
 
-    cal_type = 'week'
-    if cal_type == 'week':
-        dates = []
-        for i in range(7):
-            date_current = today + timedelta(days=i)
-            dates.append({
-                'year':date_current.strftime('%y'),
-                'month':date_current.strftime('%m'),
-                'day':date_current.strftime('%d'),
-            })
+    dates = []
+    for i in range(12):
+        date_current = today + timedelta(days=i)
+        dates.append({
+            'year':date_current.strftime('%y'),
+            'month':date_current.strftime('%m'),
+            'day':date_current.strftime('%d'),
+            'week':date_current.strftime('%a'),
+        })
             
     return render(request,
-    'dq/grid.html',
+    'dq/grid2.html',
     {
         'dates':dates,
         'times':times,

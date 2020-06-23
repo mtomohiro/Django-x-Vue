@@ -1,0 +1,121 @@
+{% extends "dq/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="q-grid q-grid-container-back">
+    <section class="q-data" data-columns="{{ dates|length }}" data-rows="{{ times|length }}"></section>
+    <div class="q-grid q-apo-header bg-dark text-light">
+        <div class="q-apo-col">
+            <div class="q-apo-cell"></div>
+        </div>
+        {% for d in dates %}
+        <div class="q-grid q-apo-col q-apo-datestaff" data-column="{{ forloop.counter }}">
+            <div class="q-apo-date">
+                <div class="q-apo-cell">
+                    <span style="font-size: 0.8em">{{ d.month }}</span>
+                    <span style="font-size: 0.8em">/</span>
+                    <span class="font-weight-bold" style="font-size: 1.4em">{{ d.day }}</span>
+                    <span class="badge badge-light">{{ d.week }}</span>
+                </div>
+            </div>
+            <div class="q-apo-staff">
+                <div class="q-apo-cell">
+                    <span class="font-weight-bold">AAA</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="q-grid q-apo-menu" hidden>
+
+    </div>
+    <div class="q-grid q-apo-main">
+        <div class="q-apo-col">
+            {% for t in times %}
+                {% if forloop.counter0|divisibleby:12 or forloop.frist %}
+                    <div class="q-apo-cell" data-row="{{ forloop.counter }}">
+                        <h6>{{ t }}</h6>
+                    </div>
+                {% else %}
+                    <div class="q-apo-cell" data-row="{{ forloop.counter }}"></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% for d in dates %}
+        <div class="q-apo-col" data-column="{{ forloop.counter }}">
+            {% for t in times %}
+            <div class="q-apo-cell" data-row="{{ forloop.counter }}"></div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="q-grid q-grid-container-front">
+    <div class="q-grid q-grid-operation">
+        <div class="q-apo-col"></div>
+        {% for d in dates %}
+        <div class="q-apo-col" data-column="{{ forloop.counter }}"></div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+const apoGrids = document.querySelectorAll(".q-grid.q-apo-main,.q-grid.q-apo-header,.q-grid-operation");
+const apoData = document.querySelector(".q-data");
+const dataColumns = apoData.dataset.columns;
+const dataRows = apoData.dataset.rows;
+const columnsWidth = [];
+
+columnsWidth.push('50px');
+for(let i = 0;i < dataColumns;i++){
+    columnsWidth.push('minmax(100px,1fr)');
+}
+apoGrids.forEach(grid => {
+    grid.style.gridTemplateColumns = columnsWidth.join(' ');
+});
+
+const newAppointment = (column , row) => {
+
+}
+
+let cells = document.querySelectorAll(".q-grid.q-apo-main .q-apo-cell");
+cells.forEach(cell => {
+    cell.addEventListener('click',e => {
+        const row = e.currentTarget.dataset.row;
+        const column = e.currentTarget.parentNode.dataset.column;
+        console.log(`${column} : ${row}`)
+        const top = e.currentTarget.getBoundingClientRect().y + window.pageYOffset
+        const max = 5
+        const unit = Math.floor(Math.random() * Math.floor(max)) + 1;
+        const height = (unit * 24) - 4
+        
+        const gridColumn = document.querySelector(".q-grid-container-front .q-apo-col[data-column='"+column+"']")
+        const element = document.createElement('div');
+        element.className = 'book bg-primary rounded text-light'
+        element.textContent = "test"
+        element.style.top = top + 'px';
+        element.style.height = height + 'px';
+        gridColumn.appendChild(element)
+    });
+
+    const bgColor = "bg-light"
+    cell.addEventListener('mouseover',e => {
+        e.currentTarget.classList.add(bgColor)
+    });
+    cell.addEventListener('mouseleave',e => {
+        e.currentTarget.classList.remove(bgColor)
+    });
+});
+
+cells = document.querySelectorAll(".q-grid.q-grid-container-front .q-apo-cell");
+cells.forEach(cell => {
+});
+
+</script>
+{% endblock extra_js %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'dq/css/grid2.css' %}">
+{% endblock extra_css %}

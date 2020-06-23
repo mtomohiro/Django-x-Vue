@@ -1,0 +1,68 @@
+.q-grid {
+    display: grid;
+    text-align: center;
+}
+.q-grid-container-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    overflow-x: hidden;
+}
+
+/* 動的生成 */
+/* .q-grid.q-apo-date,
+.q-grid.q-apo-staff,
+.q-grid.q-apo-main {
+    grid-template-columns: 60px 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+} */
+
+.q-grid.q-apo-header {
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.q-grid.q-apo-main {
+    margin-top: 85px;
+}
+
+.q-grid .q-apo-datestaff {
+    grid-template-rows: 50px;
+    line-height: 32px;
+}
+
+.q-grid.q-apo-main .q-apo-cell {
+    height: 24px;
+    line-height: 24px;
+    grid-template-columns: 1fr;
+    border-top: 1px dotted #CCC;
+}
+
+.q-apo-col {
+    border-right: 1px solid #CCC;
+}
+.q-apo-col:last-child {
+    border-right: none;
+}
+
+.q-grid.q-grid-operation .q-apo-col {
+    position: relative;
+}
+.book {
+    box-sizing: border-box;
+    position: absolute;
+
+    width: calc(100% - 2px);
+
+    margin-left: 1px;
+    margin-top: 2px;
+
+    font-size: 0.8em;
+    text-align: left;
+    padding-left: 4px;
+}
