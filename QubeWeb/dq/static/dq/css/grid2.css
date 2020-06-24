@@ -2,13 +2,24 @@
     display: grid;
     text-align: center;
 }
-.q-grid-container-back {
+.q-grid-container-back,
+.q-grid-container-front{
+    overflow-x: hidden;
+}
+
+.q-grid-container-back{
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
 
-    overflow-x: hidden;
+    z-index: 10;
+}
+.q-grid-container-front{
+    z-index: 15;
+}
+.q-grid-container-front .q-apo-col{
+    background-color: rgba(255, 106, 106, 0.3);
 }
 
 /* 動的生成 */
@@ -65,4 +76,5 @@
     font-size: 0.8em;
     text-align: left;
     padding-left: 4px;
+    z-index: 20;
 }

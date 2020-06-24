@@ -58,10 +58,23 @@
         {% endfor %}
     </div>
 </div>
+<div class="card border-primary mb-3" style="max-width: 18rem;">
+    <div class="card-header">Header</div>
+    <div class="card-body text-primary">
+      <h5 class="card-title">Primary card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+</div>
+
 {% endblock content %}
 
 {% block extra_js %}
 <script>
+const backgroundGrid = document.querySelector(".q-grid.q-grid-container-back")
+let height = backgroundGrid.getBoundingClientRect().height
+const frontGrid = document.querySelector(".q-grid.q-grid-container-front")
+frontGrid.style.height = height + 'px';
+
 const apoGrids = document.querySelectorAll(".q-grid.q-apo-main,.q-grid.q-apo-header,.q-grid-operation");
 const apoData = document.querySelector(".q-data");
 const dataColumns = apoData.dataset.columns;
@@ -98,6 +111,7 @@ cells.forEach(cell => {
         element.style.top = top + 'px';
         element.style.height = height + 'px';
         gridColumn.appendChild(element)
+
     });
 
     const bgColor = "bg-light"
