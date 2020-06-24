@@ -1,25 +1,21 @@
 .q-grid {
     display: grid;
-    text-align: center;
 }
-.q-grid-container-back,
-.q-grid-container-front{
+.q-apo-background,
+.q-apo-front{
     overflow-x: hidden;
-}
-
-.q-grid-container-back{
     position: absolute;
-    top: 0;
     left: 0;
     right: 0;
-
-    z-index: 10;
 }
-.q-grid-container-front{
+
+.q-apo-background{
+    z-index: 1;
+}
+.q-apo-front{
     z-index: 15;
 }
-.q-grid-container-front .q-apo-col{
-    background-color: rgba(255, 106, 106, 0.3);
+.q-apo-front .q-apo-col{
 }
 
 /* 動的生成 */
@@ -37,9 +33,11 @@
     right: 0;
     z-index: 100;
 }
-
-.q-grid.q-apo-main {
-    margin-top: 85px;
+.q-apo-pagination {
+    position: fixed;
+    top: 90px;
+    right: 10px;
+    z-index: 30;
 }
 
 .q-grid .q-apo-datestaff {
@@ -47,7 +45,7 @@
     line-height: 32px;
 }
 
-.q-grid.q-apo-main .q-apo-cell {
+.q-grid.q-apo-background .q-apo-cell {
     height: 24px;
     line-height: 24px;
     grid-template-columns: 1fr;
@@ -61,20 +59,23 @@
     border-right: none;
 }
 
-.q-grid.q-grid-operation .q-apo-col {
+.q-grid.q-apo-background .q-apo-col {
     position: relative;
 }
 .book {
     box-sizing: border-box;
     position: absolute;
+    background-color: #FFF;
 
-    width: calc(100% - 2px);
+    width: calc(100% - 4px);
 
-    margin-left: 1px;
-    margin-top: 2px;
+    margin-left: 2px;
+    margin-top: 4px;
 
     font-size: 0.8em;
     text-align: left;
     padding-left: 4px;
     z-index: 20;
+
+    pointer-events: auto;
 }

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="q-grid q-grid-container-back">
+<div class="q-grid q-apo-container">
     <section class="q-data" data-columns="{{ dates|length }}" data-rows="{{ times|length }}"></section>
     <div class="q-grid q-apo-header bg-dark text-light">
         <div class="q-apo-col">
@@ -26,10 +26,8 @@
         </div>
         {% endfor %}
     </div>
-    <div class="q-grid q-apo-menu" hidden>
-
-    </div>
-    <div class="q-grid q-apo-main">
+    <div class="q-apo-header-blank"></div>
+    <div class="q-grid q-apo-background">
         <div class="q-apo-col">
             {% for t in times %}
                 {% if forloop.counter0|divisibleby:12 or forloop.frist %}
@@ -49,33 +47,98 @@
         </div>
         {% endfor %}
     </div>
-</div>
-<div class="q-grid q-grid-container-front">
-    <div class="q-grid q-grid-operation">
+    <div class="q-grid q-apo-front" hidden>
         <div class="q-apo-col"></div>
         {% for d in dates %}
         <div class="q-apo-col" data-column="{{ forloop.counter }}"></div>
         {% endfor %}
     </div>
+    <nav aria-label="ページ送りの実例" class="q-apo-pagination">
+        <ul class="pagination bg-light">
+          <li class="page-item"><a class="page-link" href="#">前へ</a></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">次へ</a></li>
+        </ul>
+    </nav>
 </div>
-<div class="card border-primary mb-3" style="max-width: 18rem;">
-    <div class="card-header">Header</div>
-    <div class="card-body text-primary">
-      <h5 class="card-title">Primary card title</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+<div class="modal fade" id="staticBackdrop" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title mr-2" id="staticBackdropLabel">予約</h5>
+            <div class="btn-group-sm btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="radio">再診
+                </label>
+                <label class="btn btn-outline-secondary">
+                    <input type="radio">新規
+                </label>
+                </div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group">
+                    <label for="inputAddress2">患者ID</label>
+                    <input type="text" class="form-control" id="inputAddress2" placeholder="999999">
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress2">患者ID</label>
+                    <input type="text" class="form-control" id="inputAddress2" placeholder="999999">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputEmail4">Eメール</label>
+                      <input type="email" class="form-control" id="inputEmail4" placeholder="Eメール">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="inputPassword4">パスワード</label>
+                      <input type="password" class="form-control" id="inputPassword4" placeholder="パスワード">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                      <label for="inputZip">郵便番号</label>
+                      <input type="text" class="form-control" id="inputZip">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="inputState">都道府県</label>
+                      <select id="inputState" class="form-control">
+                        <option selected>選択...</option>
+                        <option>...</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="inputCity">市町村</label>
+                      <input type="text" class="form-control" id="inputCity">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress">住所</label>
+                    <input type="text" class="form-control" id="inputAddress" placeholder="1丁目2番3号">
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress2">住所2</label>
+                    <input type="text" class="form-control" id="inputAddress2" placeholder="マンション名,部屋番号など">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary">保存</button>
+        </div>
+      </div>
     </div>
 </div>
-
 {% endblock content %}
 
 {% block extra_js %}
 <script>
-const backgroundGrid = document.querySelector(".q-grid.q-grid-container-back")
-let height = backgroundGrid.getBoundingClientRect().height
-const frontGrid = document.querySelector(".q-grid.q-grid-container-front")
-frontGrid.style.height = height + 'px';
-
-const apoGrids = document.querySelectorAll(".q-grid.q-apo-main,.q-grid.q-apo-header,.q-grid-operation");
+const apoGrids = document.querySelectorAll(".q-apo-header,.q-apo-background,.q-apo-front");
 const apoData = document.querySelector(".q-data");
 const dataColumns = apoData.dataset.columns;
 const dataRows = apoData.dataset.rows;
@@ -89,27 +152,41 @@ apoGrids.forEach(grid => {
     grid.style.gridTemplateColumns = columnsWidth.join(' ');
 });
 
-const newAppointment = (column , row) => {
+const headerGrid = document.querySelector(".q-apo-header")
+const headerMargin = 20;
+const headerHeight = headerGrid.getBoundingClientRect().height + headerMargin;
+const headerBlank = document.querySelector(".q-apo-header-blank")
+headerBlank.style.height = headerHeight + 'px';
 
-}
+const backgroundGrid = document.querySelector(".q-apo-background")
+const backgroundGridHeight = backgroundGrid.getBoundingClientRect().height
+const frontGrid = document.querySelector(".q-apo-front")
+frontGrid.style.height = backgroundGridHeight + 'px';
 
-let cells = document.querySelectorAll(".q-grid.q-apo-main .q-apo-cell");
+backgroundGrid.style.top = headerHeight + 'px';
+frontGrid.style.top = headerHeight + 'px';
+
+const cells = document.querySelectorAll(".q-grid.q-apo-background .q-apo-cell");
 cells.forEach(cell => {
     cell.addEventListener('click',e => {
         const row = e.currentTarget.dataset.row;
         const column = e.currentTarget.parentNode.dataset.column;
-        console.log(`${column} : ${row}`)
-        const top = e.currentTarget.getBoundingClientRect().y + window.pageYOffset
+        const top = e.currentTarget.getBoundingClientRect().top + window.pageYOffset - headerHeight;
         const max = 5
-        const unit = Math.floor(Math.random() * Math.floor(max)) + 1;
-        const height = (unit * 24) - 4
-        
-        const gridColumn = document.querySelector(".q-grid-container-front .q-apo-col[data-column='"+column+"']")
-        const element = document.createElement('div');
-        element.className = 'book bg-primary rounded text-light'
+        const unit = 3;
+        const height = (unit * 24) - 4;
+
+        const gridColumn = document.querySelector(".q-apo-background .q-apo-col[data-column='"+column+"']")
+        const element = document.createElement('button');
+        element.className = 'book btn btn-outline-primary rounded p-0'
         element.textContent = "test"
         element.style.top = top + 'px';
         element.style.height = height + 'px';
+
+        element.type = 'button';
+        element.dataset.toggle = 'modal';
+        element.dataset.target = '#staticBackdrop';
+
         gridColumn.appendChild(element)
 
     });
@@ -123,9 +200,6 @@ cells.forEach(cell => {
     });
 });
 
-cells = document.querySelectorAll(".q-grid.q-grid-container-front .q-apo-cell");
-cells.forEach(cell => {
-});
 
 </script>
 {% endblock extra_js %}
