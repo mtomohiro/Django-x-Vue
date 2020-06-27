@@ -1,0 +1,64 @@
+{% extends "dq/base.html" %}
+{% load static %}
+
+{% block content %}
+<div id="q-apo-container">
+    <!-- receive variable -->
+    <section class="q-qpo-data" data-columns="{{ dates|length }}" data-rows="{{ times|length }}" hidden></section>
+
+    <!-- days + staffs -->
+    <div class="q-apo-header bg-light">
+        <div class="q-apo-daystaffs">
+            <!-- これが１単位 -->
+            <div class="q-apo-col">
+                <div class="q-apo-dates">
+                    <span class="q-apo-month">7</span>
+                    <span>/</span>
+                    <span class="q-apo-day">1</span>
+                    <span class="q-apo-week">wed</span>
+                </div>
+                <div class="q-apo-staffs">
+                    {% verbatim %}
+                    <span>{{ message }}</span>
+                    {% endverbatim %}
+                </div>
+                <headerColumn></headerColumn>
+            </div>
+        </div>
+    </div>
+
+    <!-- main-area -->
+    <div class="q-apo-body bg-light">
+        <div class="q-apo-back">
+            <!-- これが1単位 -->
+            <div class="q-apo-col">
+                <div class="q-apo-cell"></div>
+            </div>
+        </div>
+        <div class="q-apo-front">
+            <!-- これが1単位 -->
+            <div class="q-apo-col"></div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'dq/component/headerColumn.vue' %}"></script>
+<script>
+
+    const qApoContainer = new Vue({
+        el: '#q-apo-container',
+        data: {
+            message: 'Hello World',
+        },
+        components: {
+            'headerColumn': headerColumn,
+        }
+    });
+</script>
+{% endblock extra_js %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'dq/css/grid3.css' %}">
+{% endblock extra_css %}
