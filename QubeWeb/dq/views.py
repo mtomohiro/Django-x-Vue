@@ -90,7 +90,7 @@ def patient_edit(request, patient_id=None):
 def patient_del(request):
     return HttpResponse('TEST')
 
-def grid(request):
+def grid(request, gridNo=None):
     today = date.today()
     
     time_str_start = "7:00"
@@ -114,9 +114,20 @@ def grid(request):
             'day':date_current.strftime('%d'),
             'week':date_current.strftime('%a'),
         })
-            
+    
+    if(gridNo == None):
+        template = 'grid.html'
+    elif(gridNo == 1):
+        template = 'grid.html'
+    elif(gridNo == 2):
+        template = 'grid2.html'
+    elif(gridNo == 3):
+        template = 'grid3.html'
+        
+        
+    
     return render(request,
-    'dq/grid2.html',
+    f'dq/{template}',
     {
         'dates':dates,
         'times':times,

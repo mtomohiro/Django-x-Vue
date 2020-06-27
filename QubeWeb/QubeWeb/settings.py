@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'dq.apps.DqConfig',
     'api.apps.ApiConfig',
-    'bootstrap4',
 ]
 
 MIDDLEWARE = [

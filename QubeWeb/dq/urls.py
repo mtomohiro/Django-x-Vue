@@ -4,6 +4,7 @@ from dq import views
 app_name = 'dq'
 urlpatterns = [
     path('grid/',views.grid, name='grid'),
+    path('grid/<int:gridNo>/',views.grid, name='grid'),
     path('appointment/',views.appointment_list, name='appointment_list'),
     path('appointment/<int:patient_id>/',views.appointment_list, name='appointment_list'),
     path('appointment/add/',views.appointment_edit, name='appointment_add'),
